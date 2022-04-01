@@ -117,6 +117,24 @@ class Funcad:
             return (arr[1, n + 1] - arr[1, n]) / (arr[0, n + 1] - arr[0, n]) * (inp - arr[0, n]) + arr[1, n]
 
     @staticmethod
+    def transfunc_np_plus(arr: np.ndarray, inp: float) -> float:
+        """
+        Numpy transfer function only for positive array as input
+        :param arr: Input 2D array like: [[1, 2, 3, 4], [10, 20, 30, 40]]
+        :param inp: Input of value to conversion by transfer function
+        :return: Output is conversed input
+        """
+        sign = np.sign(inp) if np.sign(inp) != 0 else 1
+        inp = abs(inp)
+        if inp <= arr[0, 0]:
+            return arr[1, 0] * sign
+        elif inp >= arr[0, -1]:
+            return arr[1, -1] * sign
+        else:
+            n = np.argmax(arr[0] > inp) - 1
+            return ((arr[1, n + 1] - arr[1, n]) / (arr[0, n + 1] - arr[0, n]) * (inp - arr[0, n]) + arr[1, n]) * sign
+
+    @staticmethod
     def reim_to_polar(x: float, y: float) -> tuple:
         """
         Converts the rectangular components of a complex number into its polar components.
